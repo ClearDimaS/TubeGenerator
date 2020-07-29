@@ -4,5 +4,5 @@ using UnityEngine;
 
 public static class Constants
 {
-    public static float IMPSBL_COS = -2.0F;
+    public static float IMPSBL_COS = 2.0F;
 }

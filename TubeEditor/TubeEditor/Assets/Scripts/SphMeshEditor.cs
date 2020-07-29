@@ -14,7 +14,7 @@ public class SphMeshEditor : MonoBehaviour
     int num_steps;
     float start_phi;
     float stop_phi;
-    MeshHelper meshHelper;
+    SphMeshHelper meshHelper;
 
     public void UpdMesh(float _Radius, float _num_steps, float _start_phi, float _stop_phi)
     {
@@ -22,11 +22,11 @@ public class SphMeshEditor : MonoBehaviour
         num_steps = Mathf.RoundToInt(_num_steps);
         start_phi = _start_phi;
         stop_phi = _stop_phi;
-        meshHelper = new MeshHelper();
+        meshHelper = new SphMeshHelper();
 
         mesh = new Mesh();
         GetComponentInChildren<MeshFilter>().mesh = mesh;
-        Debug.Log(start_phi + "   " + stop_phi);
+
         CreateShape();
         UpdateMesh();
     }
@@ -78,7 +78,11 @@ public class SphMeshEditor : MonoBehaviour
                 {
                     res.Add(i * num_steps + j); res.Add(i * num_steps + j + 1); res.Add((i + 1) * num_steps + j);
 
-                    res.Add((i + 1) * num_steps + j); res.Add(i * num_steps + j + 1); res.Add((i + 1) * num_steps + j + 1);
+                    res.Add((i + 1) * num_steps + j); res.Add(i * num_steps + j + 1); res.Add((i + 1) * num_steps + j + 1); // for making visible from outside the tubes
+
+                    res.Add(i * num_steps + j + 1); res.Add(i * num_steps + j);  res.Add((i + 1) * num_steps + j);
+
+                    res.Add(i * num_steps + j + 1);  res.Add((i + 1) * num_steps + j); res.Add((i + 1) * num_steps + j + 1); // for making visible from inside the tubes
                 }
 
 
@@ -87,7 +91,6 @@ public class SphMeshEditor : MonoBehaviour
 
         return res.ToArray();
     }
-
     private void UpdateMesh()
     {
         mesh.Clear();

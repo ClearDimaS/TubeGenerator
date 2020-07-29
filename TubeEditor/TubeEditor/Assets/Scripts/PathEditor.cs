@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 //using UnityEditor.ProBuilder;
 
 [CustomEditor(typeof(PathCreator))]
+[ExecuteInEditMode]
 public class PathEditor : Editor
 {
 
@@ -151,8 +152,12 @@ public class PathEditor : Editor
 
     static TubePlacer tubePlacer;
 
+    public static PathEditor instance;
     void OnEnable()
     {
+        if (instance == null)
+            instance = this;
+
         creator = (PathCreator)target;
         if (creator.path == null)
         {
@@ -160,7 +165,22 @@ public class PathEditor : Editor
         }
         path = creator.path;
         settings = GameObject.FindObjectOfType<Settings>();
-        tubePlacer = new TubePlacer(creator.Parent);
+        tubePlacer = ScriptableObject.CreateInstance<TubePlacer>();
+        tubePlacer.Init(creator.Parent);
         point_moved = true;
+
+        var scene_view = UnityEditor.SceneView.lastActiveSceneView;
+        if (scene_view != null)
+        {
+            if (path.NumPoints > 0)
+                scene_view.LookAt(path[path.NumPoints - 1], Quaternion.Euler(0, 0, 0), scene_view.size);
+            else
+                scene_view.LookAt(new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0, 0, 0), scene_view.size);
+        }
+    }
+
+    public void SplineApplied() 
+    {
+        OnEnable();
     }
 }

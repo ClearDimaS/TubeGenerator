@@ -13,17 +13,38 @@ public class TubePlacer : Editor
     static List<Vector3> TubesPositions;
 
     Transform parent;
-    public TubePlacer(Transform _parent)
+    public void Init(Transform _parent)
     {
         parent = _parent;
         reset();
     }
 
-    float beta_prev;
+    private float beta_prev;
+    private float inner_R;
+    private float num_steps;
+    private float outter_R;
+    private Vector3 point_start;
+    private Vector3 point_end;
+    private float cos_alpha_prev;
+    private float cos_alpha_next;
+    private float beta;
+    bool y1_lrgr_y0;
 
-    public void placeTubes(int ind, GameObject TubePrefab, GameObject SphrPrefab, Vector3 point_start, Vector3 point_end, float tg_beta, bool x1_lrgr_x0, bool y1_lrgr_y0, float inner_R, float outter_R, float num_steps, float cos_alpha)
+    GameObject SphrPrefab;
+    GameObject TubePrefab;
+
+    public void placeTubes(int ind, GameObject _TubePrefab, GameObject _SphrPrefab, Vector3 _point_start, Vector3 _point_end, float tg_beta, bool x1_lrgr_x0, bool _y1_lrgr_y0, float _inner_R, float _outter_R, float _num_steps, float _cos_alpha_prev)
     {
-        float beta;
+        y1_lrgr_y0 = _y1_lrgr_y0;
+        inner_R = _inner_R;
+        num_steps = _num_steps;
+        outter_R = _outter_R;
+        point_start = _point_start;
+        point_end = _point_end;
+        cos_alpha_prev = _cos_alpha_prev;
+        TubePrefab = _TubePrefab;
+        SphrPrefab = _SphrPrefab;
+
         if (x1_lrgr_x0)
             beta = Mathf.Atan(tg_beta);
         else
@@ -35,14 +56,18 @@ public class TubePlacer : Editor
         if (ind > TubesParents.Count - 1 || ind > TubesPositions.Count - 1)
             _add();
 
-
-
         if (TubesParents[ind] != null)
             DestroyImmediate(TubesParents[ind]);
-        if (TubesPositions[ind] != calc_pos(point_start, point_end, TubePrefab, beta)) 
-        {
 
-        }
+        RotateTubes(ind);
+
+        RotateSpheres(ind);
+
+        beta_prev = beta % 360.0f;
+    }
+
+    void RotateTubes(int ind) 
+    {
         Vector3 pos = calc_pos(point_start, point_end, TubePrefab, beta);
 
         TubesPositions[ind] = new Vector3(pos.x, pos.y, pos.z);
@@ -58,8 +83,12 @@ public class TubePlacer : Editor
         TubesParents[ind].transform.SetParent(parent, true);
 
         TubesParents[ind].transform.position = TubesPositions[ind];
+    }
 
-        if (TubesParents[ind].GetComponentInChildren<SphMeshEditor>() == null && cos_alpha != Constants.IMPSBL_COS)
+    void RotateSpheres(int ind) 
+    {
+
+        if (TubesParents[ind].GetComponentInChildren<SphMeshEditor>() == null && cos_alpha_prev != Constants.IMPSBL_COS)
         {
             GameObject sphr = Instantiate(SphrPrefab, point_end, Quaternion.identity) as GameObject;
 
@@ -71,11 +100,9 @@ public class TubePlacer : Editor
         }
         else
         {
-            if (cos_alpha != Constants.IMPSBL_COS)
+            if (cos_alpha_prev != Constants.IMPSBL_COS)
                 TubesParents[ind].GetComponentInChildren<SphMeshEditor>().UpdMesh(outter_R, num_steps, beta * Mathf.Rad2Deg, beta_prev * Mathf.Rad2Deg);
         }
-
-        beta_prev = beta % 360.0f;
     }
 
     private Vector3 calc_pos(Vector3 point_start, Vector3 point_end, GameObject prefab, float beta)
