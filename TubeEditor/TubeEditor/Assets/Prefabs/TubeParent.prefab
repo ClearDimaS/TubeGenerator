@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8718811913056346498}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: TubeParent
   m_TagString: FME
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,7 +107,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 60f9f7d509e137745a1304c8dd23fec7, type: 2}
+      objectReference: {fileID: 2100000, guid: aeb0e49415176084eb6ab9eab8a7d1a4, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 23cdc04b0c5f2ca4bb68c89f93f4eadf, type: 3}
 --- !u!4 &8174653569640962345 stripped

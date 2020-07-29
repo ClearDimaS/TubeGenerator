@@ -26,9 +26,7 @@ public class TubePlacer : Editor
     private Vector3 point_start;
     private Vector3 point_end;
     private float cos_alpha_prev;
-    private float cos_alpha_next;
     private float beta;
-    bool y1_lrgr_y0;
 
     GameObject SphrPrefab;
     GameObject TubePrefab;
