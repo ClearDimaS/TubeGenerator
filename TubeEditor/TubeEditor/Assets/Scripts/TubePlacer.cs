@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEditor;
 using System;
 using UnityEngine.UIElements;
-using UnityEngine.ProBuilder;
 
 public class TubePlacer : Editor
 {
@@ -33,7 +32,6 @@ public class TubePlacer : Editor
 
     public void placeTubes(int ind, GameObject _TubePrefab, GameObject _SphrPrefab, Vector3 _point_start, Vector3 _point_end, float tg_beta, bool x1_lrgr_x0, bool _y1_lrgr_y0, float _inner_R, float _outter_R, float _num_steps, float _cos_alpha_prev)
     {
-        y1_lrgr_y0 = _y1_lrgr_y0;
         inner_R = _inner_R;
         num_steps = _num_steps;
         outter_R = _outter_R;
