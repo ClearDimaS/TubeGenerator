@@ -4,9 +4,6 @@ using UnityEngine;
 using UnityEditor;
 using System;
 using UnityEngine.UIElements;
-//using UnityEngine.ProBuilder.MeshOperations;
-//using UnityEngine.ProBuilder;
-//using UnityEditor.ProBuilder;
 
 [CustomEditor(typeof(PathCreator))]
 [ExecuteInEditMode]
@@ -176,6 +173,10 @@ public class PathEditor : Editor
                 scene_view.LookAt(path[path.NumPoints - 1], Quaternion.Euler(0, 0, 0), scene_view.size);
             else
                 scene_view.LookAt(new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0, 0, 0), scene_view.size);
+
+            scene_view.orthographic = true;
+
+            tubePlacer.reset();
         }
     }
 
