@@ -25,8 +25,10 @@ public class PathEditor : Editor
         Event guiEvent = Event.current;
         Vector3 mousePos = HandleUtility.GUIPointToWorldRay(guiEvent.mousePosition).origin; // .GetPoint(Camera.main.transform.position.y)
 
+        Debug.Log("trying to draw");
         if (guiEvent.type == EventType.MouseDown && guiEvent.button == 0 && guiEvent.shift)
         {
+            Debug.Log("Drawing");
             Undo.RecordObject(creator, "Add segment");
             path.AddSegment(mousePos);
             gridApplied = false;

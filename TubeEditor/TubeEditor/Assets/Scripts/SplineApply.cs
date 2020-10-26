@@ -38,7 +38,7 @@ public class SplineApply : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Generating");
+        //Debug.Log("Generating");
         if (Generate == true) 
         {
             Generate = false;
